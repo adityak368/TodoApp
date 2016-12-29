@@ -17,6 +17,11 @@ function loadTasks(taskArr) {
 function createCard(task) {
 	var card = document.createElement("div");
 	card.className = "card"; 
+	card.setAttribute('draggable', true);
+	card.id = task.id;
+	card.ondragstart = dragged;
+	card.ondrop = dropped;
+	card.ondragover = allowDrop;
 	if(!task.isComplete)
 		card.appendChild(getCompleteTaskButton(task));
 	card.appendChild(getDeleteTaskButton(task));
@@ -66,7 +71,7 @@ function getTaskStatus(task) {
 
 
 function deleteTask() {
-	var taskId = this.id;
+	taskId = this.id;
 	tasks.every(function(task, index) {
 	    if (task.id==taskId) {
 	    	tasks.splice(index,1);
@@ -145,4 +150,33 @@ function openTaskPanel() {
 
 function hideTaskPanel() {
 	document.getElementById("taskAdditionDiv").style.display = "none";
+}
+
+function dragged(ev) {
+	ev.dataTransfer.setData("id", ev.target.id);
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function dropped(ev) {
+    ev.preventDefault();
+    var draggedItemId = ev.dataTransfer.getData("id");
+	var dropItemId = this.id;
+    var dragIndex = getTaskIndex(draggedItemId);
+    var dropIndex = getTaskIndex(dropItemId);
+    var task = JSON.parse(JSON.stringify(tasks[dragIndex]));
+    tasks.splice(dragIndex,1);
+    tasks.splice(dropIndex, 0, task);
+    filterTasks();
+}
+
+
+function getTaskIndex(id) {
+	for(var i = 0; i<tasks.length;i++) {
+		if(tasks[i].id == id) {
+			return  i;
+		}
+	}
 }
