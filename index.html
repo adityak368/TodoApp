@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Welcome!</title>		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+	</head>
+
+	<body>
+		<div class="navbar">
+			<nav class="nav">
+				<ul class="nav-links">
+					<li class="nav-item active"><a href="#">Home</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="container">
+			<div class="filter">
+				<p> Filter : 
+				<select id="filter" onChange="filterTasks()">
+					<option value="0">All</option>
+					<option value="1">Completed</option>
+					<option value="2">Pending</option>
+				</select>
+				<button class="addTask" id="addTask" onclick="openTaskPanel()"><i class="fa fa-add"></i>Add Task</button>
+				</p>
+			</div>
+			<div class="filter" id="taskAdditionDiv" style="display: none;">
+				<textarea id="taskdescription" class="taskdescription"></textarea>
+				<button class="addTask" onclick="addTask()">Ok</button>
+				<button class="addTask" onclick="hideTaskPanel()">Cancel</button>
+			</div>
+			<div class="row" id="content">
+				
+			</div>
+		</div>
+		<script type="text/javascript" src="js/Task.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript">
+			initDummyTasks();
+			loadTasks(tasks);
+		</script>
+	</body>
+
+</html>
